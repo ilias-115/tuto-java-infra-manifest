@@ -6,10 +6,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - dso-demo-java.apps.ocp4-8.infocepo.com
+        - dso-demo-java-pouet.apps.ocp4-8.infocepo.com
       secretName: dso-demo-java-tls
   rules:
-    - host: dso-demo-java.apps.ocp4-8.infocepo.com
+    - host: dso-demo-java-pouet.apps.ocp4-8.infocepo.com
       http:
         paths:
           - path: /
