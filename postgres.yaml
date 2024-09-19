@@ -1,32 +1,7 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim # Create PVC
-metadata:
-  name: postgresql-manifest-data-claim # Sets name of PV
-spec:
-  accessModes:
-    - ReadWriteOnce # Sets read and write access
-  resources:
-    requests:
-      storage: 1Gi # Sets volume size
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-manifest # Sets service name
-  labels:
-    app: postgres-manifest # Labels and Selectors
-spec:
-  type: ClusterIP # Sets service type
-  ports:
-    - port: 5432 # Sets port to run the postgres application
-  selector:
-    app: postgres-manifest
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-manifest  # Sets Deployment name
+  name: postgres-manifest
 spec:
   replicas: 1
   strategy:
@@ -44,12 +19,18 @@ spec:
           image: bitnami/postgresql:14.9.0
           imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 5432  # Exposes container port
+            - containerPort: 5432
           env:
             - name: "POSTGRES_USER"
-              value: "userdemomanifest"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-manifest-secrets
+                  key: POSTGRES_USER
             - name: "POSTGRES_PASSWORD"
-              value: "My$ecrETPAss0rd*"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-manifest-secrets
+                  key: POSTGRES_PASSWORD
             - name: POSTGRESQL_DATABASE
               value: "demo"
           volumeMounts:
