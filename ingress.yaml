@@ -5,7 +5,7 @@ metadata:
   name: forge-mi-ingress-base
 spec:
   rules:
-    - host: plec-demo-formation-demo.apps.dso-formation.hp.numerique-interieur.com
+    - host: cour-de-cassation.apps.dso-formation.hp.numerique-interieur.com/api/demo/demo
       http:
         paths:
           - path: /
